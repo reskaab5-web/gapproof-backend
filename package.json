@@ -1,0 +1,17 @@
+{
+  "name": "reviewroi-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Live data backend for the ReviewROI report tool (Google Places + SerpApi + AEO).",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vercel/node": "^3.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}
