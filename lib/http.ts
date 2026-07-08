@@ -8,7 +8,12 @@ export function applyCors(req: VercelRequest, res: VercelResponse): boolean {
   res.setHeader("Access-Control-Allow-Origin", allow);
   res.setHeader("Vary", "Origin");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  const requested = req.headers["access-control-request-headers"];
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    (Array.isArray(requested) ? requested[0] : requested) ||
+      "Content-Type, x-google-key, x-serpapi-key, x-openai-key, x-anthropic-key, x-perplexity-key, x-gemini-key, x-lead-webhook, x-grid-size, x-grid-radius",
+  );
   if (req.method === "OPTIONS") {
     res.status(204).end();
     return true;
