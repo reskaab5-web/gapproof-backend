@@ -8,8 +8,8 @@ import { buildRevenueModel } from "./revenue.js";
 import { scoreReviews, summarizeGrid, scoreLead, buildNarrative, reviewGap } from "./scoring.js";
 import { cacheGet, cacheSet, cacheKey } from "./cache.js";
 
-export async function buildLiveReport(placeId: string, avgCustomerValue: number, ctx: Ctx): Promise<BusinessReport> {
-  const key = cacheKey("report", placeId, avgCustomerValue, ctx.gridSize);
+export async function buildLiveReport(placeId: string, avgCustomerValue: number | undefined, ctx: Ctx): Promise<BusinessReport> {
+  const key = cacheKey("report", placeId, avgCustomerValue ?? "auto", ctx.gridSize);
   const cached = await cacheGet<BusinessReport>(key);
   if (cached) return cached;
 
@@ -19,6 +19,8 @@ export async function buildLiveReport(placeId: string, avgCustomerValue: number,
   warnings.push(...d.warnings);
   const catKey = classify(d.name, d.types);
   const cat = CATEGORY_DEMAND[catKey];
+  // auto-estimate customer value from the industry when the caller did not set one
+  const acv = avgCustomerValue && avgCustomerValue >= 50 ? avgCustomerValue : cat.acv;
 
   const [comps, grid, aeoRes] = await Promise.all([
     nearbyCompetitors(cat.kw, d.location, ctx.gridRadiusMi, d.placeId, ctx.googleKey).catch((e) => {
@@ -45,7 +47,7 @@ export async function buildLiveReport(placeId: string, avgCustomerValue: number,
   if (aeoRes.aeo.length === 0) aeoScore = Math.max(0, visibilityScore - 20);
   const overallScore = Math.round(reviewScore * 0.4 + visibilityScore * 0.4 + aeoScore * 0.2);
 
-  const revenue = buildRevenueModel(avgCustomerValue, cat.demand, avgRank);
+  const revenue = buildRevenueModel(acv, cat.demand, avgRank);
   const { leadScore, leadTier } = scoreLead(reviewGapToLeader, avgRank, revenue.monthlyLost);
   const { insights, fixes } = buildNarrative({
     name: d.name, rating: d.rating, reviewGapToLeader, avgRank, top3,

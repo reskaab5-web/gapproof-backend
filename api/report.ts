@@ -14,7 +14,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const body = req.method === "POST" ? (req.body ?? {}) : req.query;
     let placeId = (body.placeId as string) || "";
     const name = (body.name as string) || "";
-    const avgValue = Math.max(50, Math.min(5000, Number(body.avgValue ?? body.avgCustomerValue ?? 250)));
+    const rawAvg = body.avgValue ?? body.avgCustomerValue;
+    const avgValue = rawAvg == null || rawAvg === "" ? undefined : Math.max(50, Math.min(5000, Number(rawAvg)));
 
     if (!placeId && name) {
       const s = await autocomplete(name, ctx.googleKey);

@@ -1,18 +1,18 @@
 // Category demand + keyword mapping (mirrors the frontend demo generator).
-export const CATEGORY_DEMAND: Record<string, { demand: number; label: string; kw: string }> = {
-  dentist:      { demand: 1900, label: "Dentist",         kw: "dentist near me" },
-  medspa:       { demand: 1300, label: "Med Spa",         kw: "med spa" },
-  hvac:         { demand: 2400, label: "HVAC Contractor", kw: "hvac repair" },
-  plumber:      { demand: 2600, label: "Plumber",         kw: "plumber near me" },
-  chiropractor: { demand: 1100, label: "Chiropractor",    kw: "chiropractor" },
-  lawyer:       { demand: 1600, label: "Law Firm",        kw: "personal injury lawyer" },
-  roofer:       { demand: 1400, label: "Roofing Company", kw: "roofing contractor" },
-  salon:        { demand: 1500, label: "Hair Salon",      kw: "hair salon near me" },
-  restaurant:   { demand: 3200, label: "Restaurant",      kw: "restaurants near me" },
-  auto:         { demand: 2100, label: "Auto Repair",     kw: "auto repair shop" },
-  realtor:      { demand: 1200, label: "Real Estate",     kw: "realtor near me" },
-  gym:          { demand: 1700, label: "Fitness Studio",  kw: "gym near me" },
-  general:      { demand: 1500, label: "Local Business",  kw: "services near me" },
+export const CATEGORY_DEMAND: Record<string, { demand: number; label: string; kw: string; acv: number }> = {
+  dentist:      { demand: 1900, label: "Dentist",         kw: "dentist near me",        acv: 700 },
+  medspa:       { demand: 1300, label: "Med Spa",         kw: "med spa",                acv: 500 },
+  hvac:         { demand: 2400, label: "HVAC Contractor", kw: "hvac repair",            acv: 500 },
+  plumber:      { demand: 2600, label: "Plumber",         kw: "plumber near me",        acv: 350 },
+  chiropractor: { demand: 1100, label: "Chiropractor",    kw: "chiropractor",           acv: 1000 },
+  lawyer:       { demand: 1600, label: "Law Firm",        kw: "personal injury lawyer", acv: 3500 },
+  roofer:       { demand: 1400, label: "Roofing Company", kw: "roofing contractor",     acv: 9000 },
+  salon:        { demand: 1500, label: "Hair Salon",      kw: "hair salon near me",     acv: 120 },
+  restaurant:   { demand: 3200, label: "Restaurant",      kw: "restaurants near me",    acv: 50 },
+  auto:         { demand: 2100, label: "Auto Repair",     kw: "auto repair shop",       acv: 500 },
+  realtor:      { demand: 1200, label: "Real Estate",     kw: "realtor near me",        acv: 9000 },
+  gym:          { demand: 1700, label: "Fitness Studio",  kw: "gym near me",            acv: 600 },
+  general:      { demand: 1500, label: "Local Business",  kw: "services near me",       acv: 500 },
 };
 
 // Map a Google "types" array (or a name) to one of our verticals.
